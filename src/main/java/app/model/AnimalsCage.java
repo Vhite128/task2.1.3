@@ -1,29 +1,32 @@
 package app.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import java.util.logging.Logger;
 
 @Component
 public class AnimalsCage {
 
-    @Qualifier("dog")
-    @Autowired
-    private Animal animal;
+    Logger logger = Logger.getLogger(getClass().getName());
 
-    public void whatAnimalSay() {
-        System.out.println("Say:");
-        System.out.println(animal.toString());
-        System.out.println("At:");
-        System.out.println(new Timer().getTime());
-        System.out.println("________________________");
+    private final Animal animal;
+
+    private final Timer timer;
+
+    public AnimalsCage(@Qualifier("dog") Animal animal, Timer timer) {
+        this.animal = animal;
+        this.timer = timer;
     }
-
-    @Autowired
-    private Timer timer;
 
     public Timer getTimer() {
         return timer;
     }
 
+    public void whatAnimalSay() {
+        logger.info("Say:");
+        logger.info(animal.toString());
+        logger.info("At:");
+        logger.info(String.valueOf(timer.getTime()));
+        logger.info("________________________");
+    }
 }
